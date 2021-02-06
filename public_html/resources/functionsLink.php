@@ -4,7 +4,11 @@
 ////////////
 // Zászló linkkel
 function flag($country) {
-	return '<a href="/country/'.$country.'"><img src="/img/flag/icon/'.$country.'.png" class="flagicon" width="22" height="14" alt="'.$country.'"></a>';
+	if (!empty($country)) {
+		return "\n".'<a href="/country/'.$country.'"><img src="/img/flag/icon/'.$country.'.png" class="flagicon" style="width:22px; height:14px;" alt="'.$country.'"></a>';
+	}
+	//return '<a href=""><img src="/img/blank.png" class="flagicon" style="width:22px; height:14px;></a>';
+	return '<img src="/img/blank.png" class="flagicon" style="width:22px; height:14px;">';
 }
 
 // Pilóta link

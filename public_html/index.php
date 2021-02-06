@@ -42,27 +42,17 @@ $gp_name = $next['name'].' GP';
 $precise = true;
 } // Van beállítva vége
 else { // Nincs idő beállítva
-	$cur_yr = date("Y");
-	$next2 = mysqli_query($f1db,
-		"SELECT MAX(rnd) AS max
-		FROM f1_race
-		WHERE yr >= $cur_yr
-		AND finish = 1"
-	);
-	$rnd = mysqli_fetch_array($next2);
-	$rnd = $rnd['max'];
 	$next = mysqli_query($f1db,
 		"SELECT country.gp, country.name, f1_gp.yr
 		FROM f1_gp
 		INNER JOIN country ON f1_gp.gp = country.gp
-		WHERE no > $rnd
+		WHERE no > (SELECT MAX(rnd) FROM f1_race WHERE finish = 1)
 		ORDER BY no ASC
-		LIMIT 1"
+		LIMIT 1" // Info2 bitch! :D
 	);
 	$next = mysqli_fetch_array($next);
 	
 	$gp_name = $next['name'].' GP';
-	
 }
 // Megjelenítés
 // Cím
@@ -251,7 +241,7 @@ AND DAY(det.dat) = $day");
 		echo '</tr>';
 	}
 	if (mysqli_num_rows($gps) == 0) {
-		echo '<tr><td colspan="2">No GP was held on '.date("j F").'</td></tr>';
+		echo '<tr><td colspan="3">No GP was held on '.date("j F").'</td></tr>';
 	}
 	echo '</table>';
 
@@ -296,7 +286,7 @@ $deaths = mysqli_query($f1db,
 	FROM driver
 	WHERE DAY(`death`) = $day
 	AND MONTH(`death`) = $month
-	ORDER BY death ASC");
+	ORDER BY birth ASC");
 	
 	echo '<table class="info" width="100%">';
 	echo '<tr><th width="70%">Driver</th><th>Died</th></tr>';

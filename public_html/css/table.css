@@ -20,3 +20,21 @@ table.plain, table.plain td {
 	border:none;
 	background:none;
 }
+
+table.podium {
+	border-style:none;
+	background:none;
+	text-align:center;
+}
+
+table.podium td {
+	border-style:none;
+	position:relative;
+	font-size:20px;
+	font-weight:bold;
+}
+
+table.plain, table.plain td {
+	border:none;
+	background:none;
+}

@@ -35,8 +35,8 @@ label,inside=Chassis constructor
 br
 input,type=checkbox,name=engine
 label,inside=Engine constructor
-image,folder=/images/team/,ext=png PNG,style=width:200px;,w=300,h=0,ratio=0,title=Upload logo
-image,folder=/images/team/icon,ext=png PNG,style=width:128px; color:black;,w=128,h=128,ratio=1,title=Upload icon
+image,folder=/img/team/,ext=png PNG,style=width:200px;,w=300,h=0,ratio=0,title=Upload logo
+image,folder=/img/team/icon,ext=png PNG,style=width:128px; color:black;,w=128,h=128,ratio=1,title=Upload icon
 social_media,type=T';
 
 simple_editor($table, $list_order, $name_display, $entry_link, $key_field, $fields, $key_length, $backlink, $list_parameters, $entry_parameters);

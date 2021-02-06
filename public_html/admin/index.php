@@ -32,7 +32,7 @@ foreach ($links as $link => $text) {
 	
 	echo '<td>';
 	echo '<a href="/admin/'.$link.'">';
-	echo '<img src="/images/admin/icon/'.$link.'.png"><br>'.$text.'<br><br>';
+	echo '<img src="/img/admin/icon/'.$link.'.png"><br>'.$text.'<br><br>';
 	echo '</a></td>';
 	
 	if ($i % 4 == 0) {

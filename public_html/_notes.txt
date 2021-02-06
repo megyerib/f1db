@@ -1,11 +1,47 @@
 Mûködik, de át kell írni:
 index.php visszaszámláló (pontosság idõvel nõ)
 css/teams.php -> generálás állandó lekérdezés helyett
+Circuits shortname-eket beírni, fullname-eket kicserélni rá
+	helyett ha van, rövid, ha nincs, hosszú
 
 Fejlesztés
 Drivers -> sort (winner, champion, ...)
 Oldalcímek
 Nem található valami -> Ablakot dob fel
+podium() div-esre
+dives rendszert újragondolni (már? :D)
+Laps driven - valahova besuvasztani
+Pilóta elsõ-utolsó futama: 1 lek.
+Pilóta eredményei - táblázatszerûség
+Init, header különválasztása
+Driver active-nál kell oda az a kb. 2. lekérdezés?
+Meg úgy egyáltalán, nem lehetne egyben lerendezni mind a kettõt? (driver/team)
+404 (SC)
 
 Kérdések
 Linkeket megéri külön-külön formázgatni?
+
+Feature
+Videók a F1 hivatalos csatornájáról
+
+Régibõl:
+Hibaoldalak
+About
+Changelog
+
+Calendar
+x Chassis
+x Circuit
+Contact
+Countries
+x Driver
+Engine
+GP
+Lists
+News
+Race
+Search
+Season
+x Team
+Test
+Tyre

@@ -1,6 +1,6 @@
 <?php
 // 0. INIT
-$includeResources = "config functionsMisc functionsLink vars";
+$includeResources = "db functionsMisc functionsLink vars socialMedia";
 foreach (explode(' ',$includeResources) as $php) {
 	include("resources/$php.php");
 }

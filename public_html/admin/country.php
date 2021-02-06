@@ -33,8 +33,8 @@ input,type=text,name=name
 br
 label,class=input,inside=Region
 dropdown,type=region,name=region
-image,folder=/images/flag/icon/,ext=png,style=width:22px; height:14px;,w=22,h=14,ratio=1,title=Upload small flag
-image,folder=/images/flag/big/,ext=png,style=width:200px;,w=300,h=0,ratio=1,title=Upload big flag';
+image,folder=/img/flag/icon/,ext=png,style=width:22px; height:14px;,w=22,h=14,ratio=1,title=Upload small flag
+image,folder=/img/flag/big/,ext=png,style=width:200px;,w=300,h=0,ratio=1,title=Upload big flag';
 
 simple_editor($table, $list_order, $name_display, $entry_link, $key_field, $fields, $key_length, $backlink, $list_parameters, $entry_parameters);
 require_once('included/foot_admin.php');

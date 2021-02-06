@@ -2,7 +2,6 @@
 ob_start();
 session_start();
 require_once('login.php');
-//$_SESSION['user'] = 'admin'; // Kiszedtem a logint
 ?>
 <!DOCTYPE html>
 <!-- ______     __          __            __    __
@@ -10,26 +9,24 @@ require_once('login.php');
    / /_/ /____/ /______   __ ____       / /_ _/ /
   / __  // __  // _  _ \ / // __ \    // / / / /
  / / / // /_/ // // // // // / / /   //       /
-/_/ /_//_____//_//_//_//_//_/ /_/     /     /
+/_/ /_//_____//_//_//_//_//_/ /_/     /      /
 -->
 <head>
 	<meta http-equiv="Content-Type" content="text/html" charset="windows-1252">
 	<link rel="stylesheet" type="text/css" href="/css/admin.css">
 	<link rel="stylesheet" type="text/css" href="/css/checkbox.css">
 	<link rel="shortcut icon" href="/images/admin/favicon.png">
-	<script src="/script/jquery.js"></script>
+	<script src="/js/jquery.js"></script>
 	
 	<?php if (isset($cke)) {echo '<script src="script/ckeditor_adv/ckeditor.js"></script>';} ?>
 </head>
 <body>
+<noscript><div style="background-color:red; color:white; text-align:center;">Js disabled!</div></noscript>
 <?php	
-	require_once('vars.php');
-	require_once('functions.php');
-	require_once('dropdown.php');
-	require_once('entry_editor.php');
-	require_once('image.php');
-	require_once('social_media.php');
-	require_once('../resources/config.php');
+	$include = "functions dropdown entry_editor image social_media ../resources/db";
+	foreach (explode(' ', $include) as $file) {
+		require_once("$file.php");
+	}
 	
 	// Message
 	if (isset($_SESSION['alert'])) {

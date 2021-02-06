@@ -269,10 +269,16 @@ function edit($table, $criteria, $fields, $param) {
 				$criteria_field = explode(' ', $criteria_field);
 				$criteria_field = $criteria_field[count($criteria_field)-1];
 				$title = !empty($field['params']['title']) ? $field['params']['title'] : '';
-				$uploader = array($field['params']['folder'], $criteria_field, $field['params']['ext'], $field['params']['style'], $field['params']['w'], $field['params']['h'], $field['params']['ratio'], $title);
+				$uploader = array(
+					$field['params']['folder'], 
+					$criteria_field, $field['params']['ext'],
+					$field['params']['style'], $field['params']['w'],
+					$field['params']['h'], $field['params']['ratio'],
+					$title
+				);
 				array_push($img_upload, $uploader);
 			break;
-			// Socuial media (ezt is)
+			// Social media (ezt is)
 			case 'social_media':
 				$sm = mysqli_query($f1db, // Még egy hülye módszer, de nem lehet egyszerűbben...
 					"SELECT no
@@ -420,7 +426,7 @@ function delete($table, $field, $subj_id, $backlink, $title) {
 	echo '</form>';
 }
 
-// Editor
+// Main
 function simple_editor($table, $list_order, $name_display, $entry_link, $key_field, $fields, $key_length, $backlink, $list_parameters, $entry_parameters) {
 	global $_GET;
 	

@@ -13,7 +13,7 @@ if (!isset($_GET['mode'])) {
 		ORDER BY fullname ASC");
 	
 	while ($row = mysqli_fetch_array($conss)) {
-		$letter = substr($row['o_char'], 0, 1);
+		$letter = strtoupper(substr($row['o_char'], 0, 1)); // Van egy kisbetűs is és ronda, ha külön szedi :s
 			if (!isset($prev) || $prev != $letter) {
 				echo '<h2>'.$letter.'</h2>';
 			}
@@ -121,7 +121,7 @@ else if ($_GET['mode'] == 'edit') {
 	echo '</form>';
 	
 	echo '<h2>Upload image</h2>';
-	img_upload('/images/chassis/', $no, '', 'width:200px;', 500, 200, 1);
+	img_upload('/img/chassis/', $no, '', 'width:200px;', 500, 200, 1);
 }
 
 // 4. Add chassis (csak meglévő gyártónál)

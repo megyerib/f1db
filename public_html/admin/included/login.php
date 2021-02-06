@@ -1,6 +1,6 @@
 <?php
   //Doctype, adatbázis
-  require_once('vars.php');
+  require_once('../resources/db.php');
     
   $message = ""; // Üzenet törlése
 

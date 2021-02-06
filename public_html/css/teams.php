@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: text/css");
-include('../resources/config.php');
+include('../resources/db.php');
 $colors = mysqli_query($f1db,
 	"SELECT id, font_color, bg_color, border_color
 	FROM f1_active_team AS act

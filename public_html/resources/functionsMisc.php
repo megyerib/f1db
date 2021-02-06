@@ -48,6 +48,10 @@ function passed($from, $to = 0) { // YYYY-MM-DD, nem hülyebiztos (from > to)
 }
 
 function interval($yrs, $cur = 0) {
+	/*if (count($yrs) == 1) {
+		return $yrs[0];
+	}*/
+	
 	$res = array();
 	$str = "";
 	
@@ -161,5 +165,24 @@ function chassisName($cons, $type) {
 		return "Unknown $cons";
 	}
 	//return $unknown.$cons.$type;
+}
+
+function podium($f, $s, $t) {
+	$f = $f != 0 ? $f : '';
+	$s = $s != 0 ? $s : '';
+	$t = $t != 0 ? $t : '';
+	
+	ob_start();
+		echo '<table class="podium"><tr>';
+			echo '<td width="72" style="top:15px;">'.$s.'</td>';
+			echo '<td width="72">'.$f.'</td>';
+			echo '<td width="72" style="top:30px;">'.$t.'</td>';
+		echo '</tr></table>';
+
+		echo '<img src="/img/site/podium.png"></center>';
+	$podium = ob_get_contents();
+	ob_clean();
+	
+	return $podium;
 }
 ?>

@@ -1,15 +1,17 @@
 <?php
+$recycleBinDir = "/img/deleted/";
+
 require_once('included/head_admin.php');
 
 echo '<h1 class="title">Recycle bin (images)</h1>';
 
 if (isset($_POST['delete']) && !empty($_POST['to_del'])) {
 	foreach ($_POST['to_del'] as $filename) {
-		unlink($_SERVER['DOCUMENT_ROOT'].'/images/deleted/'.$filename);
+		@unlink($_SERVER['DOCUMENT_ROOT'].$recycleBinDir.$filename);
 	}
 }
 
-$files = scandir($_SERVER['DOCUMENT_ROOT'].'/images/deleted');
+$files = scandir($_SERVER['DOCUMENT_ROOT'].$recycleBinDir);
 
 if (count($files) > 2) {
 	echo '<form method="post">';
@@ -19,12 +21,12 @@ if (count($files) > 2) {
 	for ($i = 2; $i < count($files); $i++) { // az első 2 elem . és ..
 		echo '<tr>';
 		echo '<td><input type="checkbox" name="to_del[]" value="'.$files[$i].'"></td>';
-		echo '<td><img src="/images/deleted/'.$files[$i].'" style="max-width:200px; max-height:200px;"></td>';
+		echo '<td><img src="'.$recycleBinDir.$files[$i].'" style="max-width:200px; max-height:200px;"></td>';
 		echo '<td>';
 		echo '<b>'.$files[$i].'</b><br>';
-		list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'].'/images/deleted/'.$files[$i]);
+		list($width, $height, $type, $attr) = getimagesize($_SERVER['DOCUMENT_ROOT'].$recycleBinDir.$files[$i]);
 		echo htmlspecialchars($attr).'<br>';
-		echo number_format(filesize($_SERVER['DOCUMENT_ROOT'].'/images/deleted/'.$files[$i])/1024, 2, '.', "").' kB<br>';
+		echo number_format(filesize($_SERVER['DOCUMENT_ROOT'].$recycleBinDir.$files[$i])/1024, 2, '.', "").' kB<br>';
 		echo '</td>';
 		echo '</tr>';
 	}

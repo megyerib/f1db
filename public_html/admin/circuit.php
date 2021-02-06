@@ -34,8 +34,8 @@ br
 label,class=input,inside=Longitude
 input,type=number,name=lon,step=0.0000001,class=coord
 br
-image,folder=/images/circuit/,ext=png,style=width:200px;,w=450,h=0,ratio=0,title=Upload circuit diagram
-image,folder=/images/circuit_logo/,ext=png,style=width:200px;,w=300,h=0,ratio=0,title=Upload logo
+image,folder=/img/circuit/,ext=png,style=width:200px;,w=450,h=0,ratio=0,title=Upload circuit diagram
+image,folder=/img/circuit_logo/,ext=png,style=width:200px;,w=300,h=0,ratio=0,title=Upload logo
 social_media,type=C';
 
 simple_editor($table, $list_order, $name_display, $entry_link, $key_field, $fields, $key_length, $backlink, $list_parameters, $entry_parameters);
