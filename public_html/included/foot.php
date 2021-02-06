@@ -12,9 +12,9 @@
 		|
 		<a href="/changelog">Changelog</a>
 	</td><td style="text-align:right;">
-		race-data.net
+		gp-stats.com
 	</td></tr></table>
-	</div></div></div>
+	</div></div>
 
 </body></html>
 <?php 
