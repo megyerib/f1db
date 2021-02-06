@@ -5,7 +5,7 @@ error_reporting(0);
 ?>
 <!DOCTYPE html><html>
 <head>
-	<meta charset="windows-1252">
+	<meta charset="UTF-8">
 <?php	
 	$require = array (
 		'vars',

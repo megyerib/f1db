@@ -1,7 +1,7 @@
 <?php
-require_once('included/head_admin.php');
+require_once('modules/head.php');
 ?>
-
+<div class="box">
 <!--a href="/admin/">Home</a><br>
 <br>
 <a href="/admin/races" style="font-weight:bold;">Races</a><br>
@@ -54,6 +54,7 @@ echo '</table>';
 <br>
 <a href="/admin/scorecalc.php">Refresh drivers' standing</a><br>
 <a href="/admin/scorecalc_cons.php">Refresh constructors' standing</a><br>
+</div>
 <?php
-require_once('included/foot_admin.php');
+require_once('modules/foot.php');
 ?>

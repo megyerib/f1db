@@ -63,17 +63,11 @@ ErrorDocument 403 /403.php
 AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript image/png image/jpg image.jpeg application/x-font-woff
 </ifmodule>
 
-<FilesMatch "\.(php)$"> 
+#$<FilesMatch "\.(php)$"> 
 #php_value short_open_tag "Off"
 #php_value auto_append_file "/included/count.php"
-</FilesMatch>
-<Files 403.shtml>
-order allow,deny
-allow from all
-</Files>
-
-deny from 27.150.235.76
-deny from 27.153.206.88
-deny from 27.153.236.202
-deny from 117.26.78.206
-deny from 140.237.5.207
+#</FilesMatch>
+#<Files 403.shtml>
+#order allow,deny
+#allow from all
+#</Files>
