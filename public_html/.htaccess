@@ -1,29 +1,16 @@
-Options +FollowSymLinks -Indexes
-RewriteEngine On 
-RewriteOptions MaxRedirects=5
-  
-#RewriteCond %{SCRIPT_FILENAME} !-d  
-#RewriteCond %{SCRIPT_FILENAME} !-f  
+Options +FollowSymLinks
+RewriteEngine On
 
-#([a-zA-Z0-9_]+)([/]?)$
+RewriteRule ^([a-zA-Z0-9_]+)$ /$1.php
+RewriteRule ^logout([/]?)$ /login.php?logout=1
 
-RewriteRule ^driver([/]?)$ /drivers.php
-RewriteRule ^driver/([a-zA-Z0-9_]+)([/]?)$ /driver.php?driver=$1
+RewriteRule ^settings/categories([/]?)$ /set_categories.php
+RewriteRule ^settings/autodetect([/]?)$ /set_autodetect.php
+RewriteRule ^settings/user([/]?)$ /set_user.php
+RewriteRule ^settings/user/delete([/]?)$ /user_delete.php
 
-RewriteRule ^team([/]?)$ /teams.php
-RewriteRule ^team/([a-zA-Z0-9_]+)([/]?)$ /team.php?team=$1
+RewriteRule ^expenses/page([0-9]+)([/]?)$ /expenses.php?page=$1
+RewriteRule ^expenses/([0-9]+)([/]?)$ /edit.php?expense=$1
+RewriteRule ^expenses/([0-9]+)/delete([/]?)$ /delete.php?expense=$1
 
-RewriteRule ^circuit([/]?)$ /circuits.php
-RewriteRule ^circuit/([a-zA-Z0-9_]+)([/]?)$ /circuit.php?circuit=$1
-
-RewriteRule ^chassis([/]?)$ /chassises.php
-RewriteRule ^chassis/([a-zA-Z0-9_]+)([/]?)$ /chassisCons.php?cons=$1
-RewriteRule ^chassis/([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)([/]?)$ /chassis.php?cons=$1&chassis=$2
-
-RewriteRule ^engine([/]?)$ /engines.php
-RewriteRule ^engine/([a-zA-Z0-9_]+)([/]?)$ /engineCons.php?cons=$1
-RewriteRule ^engine/([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)([/]?)$ /engine.php?cons=$1&engine=$2
-
-# Error
-
-ErrorDocument 404 /error/404.php
+RewriteRule ^stats/page([0-9]+)([/]?)$ /stats.php?page=$1
