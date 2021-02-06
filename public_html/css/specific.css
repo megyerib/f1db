@@ -1,0 +1,12 @@
+span#indexCountdown a { /* Main site */
+	color: white;
+	text-decoration:underline;
+}
+
+img.flagicon {
+	width:22px;
+	height:14px;
+	position:relative;
+	top:2px;
+	margin-right:3px;
+}

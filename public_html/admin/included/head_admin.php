@@ -29,7 +29,7 @@ require_once('login.php');
 	require_once('entry_editor.php');
 	require_once('image.php');
 	require_once('social_media.php');
-	require_once($_SERVER['DOCUMENT_ROOT'].'/included/vars.php');
+	require_once('../resources/config.php');
 	
 	// Message
 	if (isset($_SESSION['alert'])) {

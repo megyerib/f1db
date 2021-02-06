@@ -1,54 +1,76 @@
-div.menu div ul ul {
-	display: none;
+/* http://webdesignerhut.com/css-dropdown-menu/ */
+
+#relatedContent {
+  max-width: 800px;
+  margin: 200px auto;
 }
-div.menu div ul li:hover > ul {
-	display: block;
+
+#relatedContent .item {
+  max-width: 44%;
+  padding: 3%;
+  float: left;
+  text-align: center;
 }
-div.menu div ul {
+
+#relatedContent .item a img {
+  max-width: 100%;
+}
+
+nav ul {
+	padding:0;
+	margin:0;
 	list-style: none;
 	position: relative;
+	}
+	
+nav ul li {
+	display:inline-block;
 }
-div.menu div ul:after {
-	content: "";
-	clear: both;
-	display: block;
+nav ul ul li {
+	background-color: #CCCCCC; /* boxes */
 }
-div.menu div ul li {
-	float: left;
+
+nav a {
+	display:block;
+	padding:0 10px;	
+	color:#FFF;
+	/*font-size:20px;*/
+	line-height: 28px; /* 1 */
+	text-decoration:none;
 }
-div.menu div ul li:hover {
-	background: #4b545f;
+
+nav a:hover { 
+	background-color: #000000; 
 }
-div.menu div ul li:hover a {
-	color: #fff;
+
+/* Hide Dropdowns by Default */
+nav ul ul {
+	display: none;
+	position: absolute; 
+	top: 28px; /* 1 */
 }
-div.menu div ul li a {
-	display: block;
-	padding: 6px 20px;
-	color: #757575;
-	text-decoration: none;
-}	
-div.menu div ul ul {
-	background: #5f6975;
-	padding: 0px;
-	position: absolute;
-	top: 100%;
+	
+/* Display Dropdowns on Hover */
+nav ul li:hover > ul {
+	display:inherit;
 }
-div.menu div ul ul li {
-	float: none; 
-	border-top: 1px solid #6b727c;
-	border-bottom: 1px solid #575f6a;
+	
+/* Fisrt Tier Dropdown */
+nav ul ul li {
+	width:170px;
+	float:none;
+	display:list-item;
 	position: relative;
 }
-div.menu div ul ul li a {
-	padding: 6px 20px;
-	color: #fff;
-}	
-div.menu div ul ul li a:hover {
-	background: #4b545f;
+
+/* Second, Third and more Tiers	*/
+nav ul ul ul li {
+	position: relative;
+	top:-28px; /* -1 */
+	left:170px;
 }
-div.menu div ul {
-	margin:0px;
-	padding:0px;
-	z-index:1;
-}
+
+	
+/* Change this in order to change the Dropdown symbol */
+li > a:after { content:  ' >'; }
+li > a:only-child:after { content: ''; }

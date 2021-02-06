@@ -1,0 +1,11 @@
+Mûködik, de át kell írni:
+index.php visszaszámláló (pontosság idõvel nõ)
+css/teams.php -> generálás állandó lekérdezés helyett
+
+Fejlesztés
+Drivers -> sort (winner, champion, ...)
+Oldalcímek
+Nem található valami -> Ablakot dob fel
+
+Kérdések
+Linkeket megéri külön-külön formázgatni?

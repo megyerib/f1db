@@ -1,183 +1,121 @@
 <?php
-$pagetitle = 'drivers';
-require_once('included/head.php');
-
-// Fő Lekérdezés
-if (!isset($_GET['order'])) { // Nincs rendezés
-	$mainq = mysqli_query($f1db,
-		"SELECT * " .
-		"FROM driver " . 
-		"ORDER BY last ASC");
-}
-else { // Van rendezés
-	switch ($_GET['order']) {                     // WHERE záradékok, normálisabb
-		case 1: // Qualified
-			$mainq = mysqli_query($f1db,
-				"SELECT DISTINCT race.driver, driver.id, driver.country,
-					driver.first, driver.de, driver.last, driver.sr
-				FROM f1_race AS race
-				INNER JOIN driver
-				ON (race.driver = driver.no)
-				WHERE status <= 4
-				ORDER BY driver.last ASC");
-			$ttl = 'Qualifiers';
-			break;
-		
-		case 2: // Finished
-			$mainq = mysqli_query($f1db,
-				"SELECT DISTINCT race.driver, driver.id, driver.country,
-					driver.first, driver.de, driver.last, driver.sr
-				FROM f1_race AS race
-				INNER JOIN driver
-				ON (race.driver = driver.no)
-				WHERE status = 1
-				ORDER BY driver.last ASC");
-			$ttl = 'Finishers';
-			break;
-						
-		case 3: // Podium
-			$mainq = mysqli_query($f1db,
-				"SELECT DISTINCT race.driver, driver.id, driver.country,
-					driver.first, driver.de, driver.last, driver.sr
-				FROM f1_race AS race
-				INNER JOIN driver
-				ON (race.driver = driver.no)
-				WHERE finish <= 3
-				ORDER BY driver.last ASC");
-			$ttl = 'Podium finishers';
-			break;
-			
-		case 4: // Winner
-			$mainq = mysqli_query($f1db,
-				"SELECT DISTINCT race.driver, driver.id, driver.country,
-					driver.first, driver.de, driver.last, driver.sr
-				FROM f1_race AS race
-				INNER JOIN driver
-				ON (race.driver = driver.no)
-				WHERE finish = 1
-				ORDER BY driver.last ASC");
-			$ttl = 'Winners';
-			break;
-			
-		case 5: // Champions
-			$mainq = mysqli_query($f1db,
-				"SELECT DISTINCT tbl.driver, driver.id, driver.country,
-					driver.first, driver.de, driver.last, driver.sr
-				FROM f1_tbl AS tbl
-				INNER JOIN driver
-				ON (tbl.driver = driver.no)
-				WHERE place = 1
-				ORDER BY driver.last ASC");
-			$ttl = 'World champions';
-			break;
-			
-		case 6: // Nem 500
-			$mainq = mysqli_query($f1db,
-				"SELECT DISTINCT tbl.driver, driver.id, driver.country,
-					driver.first, driver.de, driver.last, driver.sr
-				FROM f1_tbl AS tbl
-				INNER JOIN driver
-				ON (tbl.driver = driver.no)
-				WHERE i500 = 0
-				ORDER BY driver.last ASC");
-			$ttl = 'Excl. only Indy 500 participlers';
-			break;
-			
-		default:
-			header('Location: '.$_SERVER['PHP_SELF']);
-			break;
-	}
-}
-
-$num_drivers = mysqli_num_rows($mainq);
-
-if (isset($ttl)) {
-	echo '<h2>'.$ttl.' ('.$num_drivers.' drivers)</h2>';
-}/*
-?>
-<div class="right" id="driver">
-
-<h3>Sort drivers</h3>
-<a href="?">All</a><br>
-<a href="?order=1">Only qualifiers</a><br>
-<a href="?order=2">Only finishers</a><br>
-<a href="?order=3">Only podium finishers</a><br>
-<a href="?order=4">Only winners</a><br>
-<a href="?order=5">Only champions</a><br>
-<a href="?order=6">Excluded Indy500</a><br>
-
-</div>
-<?php
-// Aktív
-*/
-/*
-echo '<h2>Current drivers</h2>';
-
-$query_current = mysqli_query($f1db,
-	"SELECT first, de, last, sr, id, country
-	FROM f1_active_driver AS active
-	INNER JOIN driver
-	ON active.no = driver.no
-	ORDER BY last ASC");
-	
-while ($row = mysqli_fetch_array($query_current)) {
-	$name = name($row['first'], $row['de'], $row['last'], $row['sr']);
-	echo flag($row['country']).driver_link($row['id'], $name).'<br>';
-}
-
-*/
-
-active_teams($f1db);
+include('resources/head.php');
+$all = mysqli_query($f1db,
+	"SELECT *
+	FROM driver
+	ORDER BY last ASC"
+);
 
 // Betűk
 $query_letters = mysqli_query($f1db,
 	"SELECT DISTINCT LEFT(last, 1) AS letter
 	FROM driver
-	ORDER BY last ASC");
+	ORDER BY last ASC"
+);
 
 $letters = array();
-$prev = 0;
 
 while ($row = mysqli_fetch_array($query_letters)) {
-	$letter = $row['letter'];
-
-	$link = '<a href="#' . $letter . '">' . $letter . '</a>';
+	$link = '<a href="#'.$row['letter'].'">'.$row['letter'].'</a>';
 	array_push($letters, $link);
-	$prev = $letter;
 }
-echo implode(' &middot; ', $letters) . '<br><br>';
 
+ob_start();
+
+echo '<h3 style="margin:0">'.implode(' &middot ', $letters).'</h3>';
+
+$letters = ob_get_contents();
+ob_clean();
+
+// Mindenki
+ob_start();
+
+$mainq = mysqli_query($f1db,
+	"SELECT *
+	FROM driver
+	ORDER BY last ASC"
+);
+echo '<h2 style="margin-top:0">A</h2>'; // Bugot használok ki, nem rak A betűt
+$prev = 0;
 while ($row = mysqli_fetch_array($mainq)) {
 	$letter = substr($row['last'], 0, 1);
-	if (!isset($prev) || $prev != $letter) {
-		echo '<h2 id="' . $letter . '" style="margin-top:15px;">' . $letter . '</h2>';
+	if ($prev != $letter) {
+		echo '<h2 id="'.$letter.'" style="margin-top:15px;">'.$letter.'</h2>';
 	}
 	$prev = $letter;
 	
-	//$name = name($row['first'], $row['de'], $row['last'], $row['sr'], 2);
+	$name = nameReverse($row['first'], $row['de'], $row['last'], $row['sr']);
 	
-	$f  = $row['first'];
-	$la = $row['de'];
-	$s  = $row['last'];
-	$sr = $row['sr'];
-	
-	if ($la != '') {
-		$la = $la . ' ';
-	}
-	if ($sr != '') {
-		$sr = ', ' . $sr . '.';
-	}
-	if ($f != '') {
-		$f = ', ' . $f;
-	}
-	
-	$name = $la . $s . $sr . $f;
-	
-	echo flag($row['country']).driver_link($row['id'], $name).'<br>';
-	
+	echo flag($row['country']).linkDriver($row['id'], $name).'<br>';
 }
+$Wdrivers = ob_get_contents();
+ob_clean();
 
-echo '<br><br><a href="#">Up</a> &middot; ' . implode(' &middot; ', $letters);
+// Akt. csapatok
+ob_start();
+	$teams = mysqli_query($f1db,
+		"SELECT active.no, team.id, team.fullname, team.country
+		FROM f1_active_team AS active
+		INNER JOIN team
+		ON active.no = team.no
+		ORDER BY ordering ASC"
+	);
+	$active = array();
+	while ($row = mysqli_fetch_array($teams)) {
+		$active[$row['no']]['id']      = $row['id'];
+		$active[$row['no']]['name']    = $row['fullname'];
+		$active[$row['no']]['country'] = $row['country'];
+	}
 
-require_once('included/foot.php');
+	// Pilóták
+	$drivers = mysqli_query($f1db,
+		"SELECT active.team, active.car_no, driver.country, driver.id, driver.first, driver.de, driver.last, driver.sr, active.status
+		FROM f1_active_driver AS active
+		INNER JOIN driver
+		ON active.no = driver.no
+		ORDER BY ordering ASC");
+	while ($row = mysqli_fetch_array($drivers)) {
+		$name = name($row['first'], $row['de'], $row['last'], $row['sr']);
+		$active[$row['team']][$row['status']][$row['id']]['name']    = $name;
+		$active[$row['team']][$row['status']][$row['id']]['country'] = $row['country'];
+		$active[$row['team']][$row['status']][$row['id']]['car_no'] = $row['car_no'];
+	}
+
+	// Kiírás
+	foreach ($active as $no => $team) {
+		echo '<div class="single '.$team['id'].'">';
+		// Logo
+		echo '<img src="/img/team/icon/'.$team['id'].'.png" style="width:60px; height:60px; float:left; padding: 0 10px 0 0;">';
+		echo '<span style="display:block; overflow:hidden;"><h3 style="margin-top:0px; margin-bottom:5px;">'.linkTeam($team['id'], $team['name']).'</h3>';
+		foreach ($team['R'] as $id => $driver) {
+			echo flag($driver['country']).'<span style="display: inline-block; width:15px; font-weight:bold; text-align:right; padding-right:5px;">'.$driver['car_no'].'</span>'.linkDriver($id, $driver['name']).'<br>';
+		}
+		if (isset($team['T'])) { // Mertvoltmárrápélda (a másikra sztem nem) (de, arra is, pl. év elején [#előrelátás] )
+			echo '<p style="font-weight:bold;">Test drivers</p>';
+			foreach ($team['T'] as $id => $driver) {
+				echo flag($driver['country']).'<span style="display: inline-block; width:15px; font-weight:bold; text-align:right; padding-right:5px;">'.$driver['car_no'].'</span>'.linkDriver($id, $driver['name']).'<br>';
+			}
+		}
+		echo '</span></div>';
+	}
+$current = ob_get_contents();
+ob_clean();
+
+?>
+<h1>Drivers</h1>
+<div class="triple">
+	<?php echo $letters; ?>
+</div>
+<div style="float:right;">
+	<h2 style="margin-top:0;">Current drivers</h2>
+	<?php echo $current; ?>
+</div>
+<div class="double">
+	<?php echo $Wdrivers; ?>
+</div>
+<div class="triple">
+	<?php echo $letters; ?>
+</div>
+<?php
+include('resources/foot.php');
 ?>

@@ -1,0 +1,11 @@
+Options +FollowSymLinks -Indexes
+RewriteEngine On 
+RewriteOptions MaxRedirects=5
+  
+#RewriteCond %{SCRIPT_FILENAME} !-d  
+#RewriteCond %{SCRIPT_FILENAME} !-f  
+
+#([a-zA-Z0-9_]+)([/]?)$
+
+RewriteRule ^driver([/]?)$ /drivers.php
+RewriteRule ^driver/([a-zA-Z0-9_]+)([/]?)$ /driver.php?driver=$1

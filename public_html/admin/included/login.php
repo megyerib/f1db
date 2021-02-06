@@ -72,7 +72,7 @@
 	<div style="text-align:center;">
 	  <form target="_self" method="post">
 	  
-	   <h1><img src="/images/admin/logo.png"><br />Log in</h1>
+	   <h1><img src="/img/_site/logo.png" style="width:300px;"><br />Log in</h1>
 	   <?php if ($message != '') {echo '<font color="red">' . $message . '</font></br>';} ?>
 	   
 	   Username<br />

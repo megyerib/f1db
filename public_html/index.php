@@ -1,11 +1,10 @@
 <?php
-$maintitle = 'Welcome to race-data.net F1 database!';
-require_once('included/head.php');
-?>
-<div style="float:right; margin-left:10px;">
-<?php 	
-// NEXT EVENT
-echo '<div class="timer" style="margin-bottom:15px;">';
+include('resources/head.php');
+
+// Visszaszámláló
+
+ob_start();
+
 $next = mysqli_query($f1db,
 	"SELECT country.name, det.tme, det.name AS event, det.type, det.num,
 		gp.yr, gp.gp
@@ -20,6 +19,7 @@ $next = mysqli_query($f1db,
 if (mysqli_num_rows($next) > 0) { // Van esemény beállítva
 $next = mysqli_fetch_array($next);
 $date = date('M d, Y H:i:s', strtotime($next['tme']));
+
 if (!empty($next['event'])) {
 	$event_name = $next['event'];
 }
@@ -39,7 +39,6 @@ else {
 }
 
 $gp_name = $next['name'].' GP';
-$flag = '<img src="/images/flag/big/'.$next['gp'].'.png" height="21" alt="'.$next['name'].'">';
 $precise = true;
 } // Van beállítva vége
 else { // Nincs idő beállítva
@@ -63,14 +62,15 @@ else { // Nincs idő beállítva
 	$next = mysqli_fetch_array($next);
 	
 	$gp_name = $next['name'].' GP';
-	$flag = '<img src="/images/flag/big/'.$next['gp'].'.png" height="21" alt="'.$next['name'].'">';
+	
 }
 // Megjelenítés
+// Cím
+echo '<p style="font-family:\'Russo One\'; text-align: center; margin:0; font-size:24px;">Next event</span><br>';
 
-echo 'Next event: '.$flag.' '.race_link($next['yr'], $next['gp'], $gp_name);
+// Hátralévő idő
 if (isset ($precise)) {
-echo ' - '.$event_name;
-echo '<br><span id="countdown">loading...</span>';
+echo '<span id="countdown" style="font-size:44px;" style="font-size:24px;">loading...</span><br>';
 echo '<script>
     var target_date = new Date("'.$date.'").getTime(); // Date
 
@@ -82,7 +82,7 @@ echo '<script>
         var seconds_left = (target_date - current_date) / 1000;
         days = parseInt(seconds_left / 86400);
         if (days > 0) {
-            days = days + " days, ";
+            days = days + "d, ";
         } else {
             days = "";
         }
@@ -96,25 +96,35 @@ echo '<script>
         if (minutes < 10) {
             minutes = "0" + minutes;
         }
-        seconds = parseInt(seconds_left % 60);
+        /*seconds = parseInt(seconds_left % 60);
         if (seconds < 10) {
             seconds = "0" + seconds;
-        }
+        }*/
 
         if (target_date > current_date) {
-            countdown.innerHTML = "in " + days + hours + ":" + minutes + ":" + seconds;
+            countdown.innerHTML = days + hours + ":" + minutes;
         } else {
             countdown.innerHTML = "LIVE!";
         }
     }, 1000);
 </script>';
 }
-echo '</div>'; // Next event vége
 
-	require_once('today.php');
-	
-	// DRIVERS STANDING
-	echo '<h2>Drivers standing</h2>';
+echo '<span style="text-align:center; font-family:\'Russo One\'; font-size:16px;" id="indexCountdown">';
+$flag = '<img src="/img/flag/big/'.$next['gp'].'.png" style="position:relative; top:6px; height:21px;" alt="'.$next['name'].'">';
+echo $flag.' '.linkRace($next['yr'], $next['gp'], $gp_name);
+
+if (isset ($precise)) {
+	echo ' - '.$event_name;
+}
+echo '</span></p>';
+
+$nextEvent = ob_get_contents();
+ob_end_clean();
+
+// Pilóták állása
+ob_start();
+
 	$yr = actual;
 	$driver_list = mysqli_query($f1db,
 		"SELECT *
@@ -124,7 +134,7 @@ echo '</div>'; // Next event vége
 		WHERE yr = $yr
 		AND place <= 10
 		ORDER BY place ASC");
-	echo '<table class="results">';
+	echo '<table class="standing" width="100%">';
 	echo '<tr><th style="width:20px;">#</th><th style="width:170px;">Driver</th><th colspan="2">Score</th></tr>';
 	while ($row = mysqli_fetch_array($driver_list)) {
 		if ($row['place'] > 1) {
@@ -134,19 +144,20 @@ echo '</div>'; // Next event vége
 		}
 		$prev = $row['score'];
 		echo '<tr>';
-		echo '<td style="text-align:center;">'.$row['place'].'</td>';
+		echo '<td style="text-align:center;" class="place">'.$row['place'].'</td>';
 		$name = name($row['first'], $row['de'], $row['last'], $row['sr']);
-		echo '<td>'.flag($row['country']).driver_link($row['id'], $name).'</td>';
+		echo '<td>'.flag($row['country']).linkDriver($row['id'], $name).'</td>';
 		echo '<td>'.($row['score']+0).'</td>';
 		echo '<td>'.$gap.'</td>';
 		echo '</tr>';
 	}
 	echo '</table>';
-	echo '<p><a href="/f1/'.actual.'#drivers_standing">All</a></p>';
-	
-	// CONSTRUCTOSR STANDING
-	echo '<h2>Constructors standing</h2>';
-	$driver_list = mysqli_query($f1db,
+$driversStanding = ob_get_contents();
+ob_end_clean();
+
+// Konstruktőri állása
+ob_start();
+$driver_list = mysqli_query($f1db,
 		"SELECT *,
 			chassis.fullname AS chassis_name, chassis.id AS ch_id, chassis.country AS ch_country,
 			engine.fullname AS engine_name, engine.id AS en_id
@@ -158,7 +169,7 @@ echo '</div>'; // Next event vége
 		WHERE yr = $yr
 		AND place <= 10
 		ORDER BY place ASC");
-	echo '<table class="results">';
+	echo '<table class="standing" width="100%">';
 	echo '<tr><th style="width:20px;">#</th><th style="width:170px;">Constructor</th><th colspan="2">Score</th></tr>';
 	while ($row = mysqli_fetch_array($driver_list)) {
 		if ($row['place'] > 1) {
@@ -172,12 +183,12 @@ echo '</div>'; // Next event vége
 			$gap   = '';
 		}
 		$prev = $row['score'];
-		echo '<td style="text-align:center;">'.$row['place'].'</td>';
+		echo '<td style="text-align:center;" class="place">'.$row['place'].'</td>';
 		if ($row['ch_id'] != $row['en_id']) {
-			$link = flag($row['ch_country']).team_link($row['ch_id'], $row['chassis_name']).' - '.engine_cons_link($row['en_id'], $row['engine_name']);
+			$link = flag($row['ch_country']).linkTeam($row['ch_id'], $row['chassis_name']).' - '.linkEngineCons($row['en_id'], $row['engine_name']);
 		}
 		else {
-			$link = flag($row['ch_country']).team_link($row['ch_id'], $row['chassis_name']);
+			$link = flag($row['ch_country']).linkTeam($row['ch_id'], $row['chassis_name']);
 		}
 		echo '<td>'.$link.'</td>';
 		echo '<td>'.($row['score']+0).'</td>';
@@ -185,29 +196,164 @@ echo '</div>'; // Next event vége
 		echo '</tr>';
 	}
 	echo '</table>';
-	echo '<p><a href="/f1/'.actual.'#constructors_standing">All</a></p>';
-?>
-</div>
+$constructorsStanding = ob_get_contents();
+ob_end_clean();
 
-<h2 style="margin-top:0px;">Hi there!</h2>
-My site is in beta phase, so I'm constantly adding many-many features to it. If you've found some bugs, mistakes in the datas os just have a suggestion, please let me know of it.<br>
-Subscribe for updates on Facebook, Twitter or Rss. Thanks!
-<?php
-// BLOG
-echo '<h2>Latest news</h2>';
-$news = mysqli_query($sdb,
-	"SELECT *
-	FROM blog
-	WHERE public = 1
-	ORDER BY time DESC
-	LIMIT 5");
-echo '<hr>';
-while ($row = mysqli_fetch_array($news)) {
-	echo '<h2>'.$row['title'].'</h2>';
-	echo $row['head'];
-	echo ' <a href="/news/'.$row['id'].'">Read more</a>';
+// Mai nap
+ob_start();
 
+$time = localtime();
+$month = $time[4] + 1;
+$day   = $time[3];
+
+// Nagydíjak
+$gps = mysqli_query($f1db,
+	"SELECT race.yr, race.gp, country.name AS gpname, race.no AS raceno,
+	driver.id AS driverid, driver.first, driver.de, driver.last, driver.sr, driver.country,
+	team.id AS teamid, team.fullname AS teamname, team.country AS teamcountry
+FROM f1_race AS race
+INNER JOIN f1_details AS det ON (race.rnd = det.no)
+INNER JOIN driver ON (race.driver = driver.no)
+INNER JOIN country ON (race.gp = country.gp)
+INNER JOIN team ON (race.team = team.no)
+WHERE race.finish = 1
+AND MONTH(det.dat) = $month
+AND DAY(det.dat) = $day");
+	
+	$results = array();
+	
+	while ($row = mysqli_fetch_array($gps)) {
+		$name = name($row['first'], $row['de'], $row['last'], $row['sr']);
+		$link = flag($row['country']).linkDriver($row['driverid'], $name);
+		$team = flag($row['teamcountry']).linkTeam($row['teamid'], $row['teamname']);
+		
+		$gp   = $row['yr'].$row['gp'];
+		$short= $row['gp'];
+		$yr   = $row['yr'];
+		$name = $row['gpname'];
+		$no   = $row['raceno'];
+		
+		$results[$gp]['yr'] = $yr;
+		$results[$gp]['short'] = $short;
+		$results[$gp]['name'] = $name;
+		$results[$gp]['winner'][$no] = $link;
+		$results[$gp]['team'] = $team;
+	}
+	
+	echo '<table class="info" width="100%">';
+	echo '<tr><th width="40%">GP</th><th width="40%">Winner</th><th width="30%">Team</th></tr>';
+	foreach ($results as $gp) {
+		echo '<tr>';
+			$name = $gp['yr'] . ' ' . $gp['name'] . ' GP';
+		echo '<td>'.flag($gp['short']).linkRace($gp['yr'], $gp['short'], $name).'</td>';
+		echo '<td>'.implode($gp['winner'], '<br>').'</td>';
+		echo '<td>'.$gp['team'].'</td>';
+		echo '</tr>';
+	}
+	if (mysqli_num_rows($gps) == 0) {
+		echo '<tr><td colspan="2">No GP was held on '.date("j F").'</td></tr>';
+	}
+	echo '</table>';
+
+$todayInF1 = ob_get_contents();
+ob_end_clean();
+
+// Születések
+ob_start();
+$births = mysqli_query($f1db,
+	"SELECT driver.id, driver.country, YEAR(driver.birth) AS yr,
+		driver.first, driver.de, driver.last, driver.sr
+	FROM driver
+	WHERE DAY(`birth`) = $day
+	AND MONTH(`birth`) = $month
+	ORDER BY birth ASC");
+	
+if (mysqli_num_rows($births) > 0) {
+	echo '<table class="info" width="100%">';
+	echo '<tr><th width="70%">Driver</th><th>Born</th></tr>';
+	while ($driver = mysqli_fetch_array($births)) {
+		$name = name($driver['first'], $driver['de'], $driver['last'], $driver['sr']);
+		
+		echo '<tr>';
+		echo '<td>'.flag($driver['country']);
+		echo linkDriver($driver['id'], $name).'</td>';
+		echo '<td>'.$driver['yr'].' ('.(date('Y') - $driver['yr']).')</td>';
+		echo '</tr>';
+	}
+	if (mysqli_num_rows($births) == 0) {
+		echo '<tr><td colspan="2">No driver was born on '.date("j F").'</td></tr>';
+	}
+	echo '</table>';
 }
-$pagetitle = 'Index';
-require_once('included/foot.php');
+$driversBorn = ob_get_contents();
+ob_end_clean();
+
+// Halálozások
+ob_start();
+$deaths = mysqli_query($f1db,
+	"SELECT driver.id, driver.country, YEAR(driver.death) AS yr,
+		driver.first, driver.de, driver.last, driver.sr
+	FROM driver
+	WHERE DAY(`death`) = $day
+	AND MONTH(`death`) = $month
+	ORDER BY death ASC");
+	
+	echo '<table class="info" width="100%">';
+	echo '<tr><th width="70%">Driver</th><th>Died</th></tr>';
+	
+	while ($died = mysqli_fetch_array($deaths)) {
+		$name = name($died['first'], $died['de'], $died['last'], $died['sr']);
+		
+		echo '<tr>';
+		echo '<td>'.flag($died['country']);
+		echo driver_link($died['id'], $name).'</td>';
+		echo '<td>'.$died['yr'].' ('.($cur_yr - $died['yr']).')</td>';
+		echo '</tr>';
+	}
+	if (mysqli_num_rows($deaths) == 0) {
+		echo '<tr><td colspan="2">No driver was died on '.date("j F").'</td></tr>';
+	}
+	echo '</table>';
+$driversDied = ob_get_contents();
+ob_end_clean();
+
+?>
+
+
+
+<!-- Here is where content begins -->
+	<div class="frame">
+	<!-- Right bar -->
+	<div style="float:right;">
+		<div class="single" style="color:white; background-color:#004687"><?php echo $nextEvent ?></div>
+		<h2>Drivers standing</h2>
+		<div class="singleFull"><?php echo $driversStanding ?></div>
+		<p><a href="/f1/<?php echo actual ?>#drivers_standing">All</a></p>
+		<h2>Constructors' standing</h2>
+		<div class="singleFull"><?php echo $constructorsStanding ?></div>
+		<p><a href="/f1/<?php echo actual ?>#constructors_standing">All</a></p>
+	</div>
+	
+	<!-- Welcome -->
+	<div class="double"><h2 style="margin-top:0;">Welcome!</h2>Yo bitchez!</div>
+	
+	<!-- This day -->
+	<h2>This day in F1</h2>
+	<div class="doubleFull"><?php echo $todayInF1 ?></div>
+	<div class="doubleFull" style="box-shadow:none;">
+		<div style="float:right;">
+			<h2 style="margin-top:0;">Drivers died</h2>
+			<div class="singleFull" style="margin:0"><?php echo $driversDied ?></div>
+		</div>
+		<h2>Drivers born</h2>
+		<div class="singleFull" style="margin:0">
+			<?php echo $driversBorn ?>
+		</div>
+	</div>
+	
+	
+
+
+<?php
+include('resources/foot.php');
 ?>
