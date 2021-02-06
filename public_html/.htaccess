@@ -1,0 +1,79 @@
+Options +FollowSymLinks -Indexes
+RewriteEngine On 
+RewriteOptions MaxRedirects=5
+  
+#RewriteCond %{SCRIPT_FILENAME} !-d  
+#RewriteCond %{SCRIPT_FILENAME} !-f  
+
+#([a-zA-Z0-9_]+)([/]?)$
+
+RewriteRule ^team([/]?)$ /teams.php
+RewriteRule ^team/([a-zA-Z0-9_]+)([/]?)$ /team.php?team=$1
+
+RewriteRule ^circuit([/]?)$ /circuits.php
+RewriteRule ^circuit/([a-zA-Z0-9_]+)([/]?)$ /circuit.php?circuit=$1
+
+RewriteRule ^tyre([/]?)$ /tyres.php
+RewriteRule ^tyre/([a-zA-Z0-9_]+)([/]?)$ /tyre.php?tyre=$1
+
+RewriteRule ^country([/]?)$ /countries.php
+RewriteRule ^country/([a-zA-Z0-9_]+)([/]?)$ /country.php?country=$1
+
+RewriteRule ^driver([/]?)$ /drivers.php
+RewriteRule ^driver/([a-zA-Z0-9_]+)([/]?)$ /driver.php?driver=$1
+
+RewriteRule ^f1/list([/]?)$ /lists.php
+RewriteRule ^f1/list/([a-zA-Z0-9_]+)([/]?)$ /lists.php?mode=$1
+
+RewriteRule ^f1/test/(....)/([0-9]+)([/]?)$ /test.php?year=$1&test=$2
+
+RewriteRule ^f1([/]?)$ /races.php
+RewriteRule ^f1/(....)/(...)([/]?)$ /race.php?year=$1&race=$2
+RewriteRule ^f1/(...)/(....)([/]?)$ /race.php?year=$2&race=$1
+RewriteRule ^f1/(...)([/]?)$ /gp.php?gp=$1
+RewriteRule ^f1/(....)([/]?)$ /season.php?year=$1
+
+RewriteRule ^engine([/]?)$ /engines.php
+RewriteRule ^engine/([a-zA-Z0-9_]+)([/]?)$ /engine_cons.php?cons=$1
+RewriteRule ^engine/(.+)/([0-9]+)([/]?)$ /engine.php?cons=$1&no=$2
+
+RewriteRule ^chassis([/]?)$ /chassises.php
+RewriteRule ^chassis/([a-zA-Z0-9_]+)([/]?)$ /chassis_cons.php?cons=$1
+RewriteRule ^chassis/(.+)/([0-9]+)([/]?)$ /chassis.php?cons=$1&no=$2
+
+# 1 oldalak
+RewriteRule ^subscribe([/]?)$ /subscribe.php
+RewriteRule ^search([/]?)$ /search.php
+RewriteRule ^about([/]?)$ /about.php
+RewriteRule ^contact([/]?)$ /contact.php
+RewriteRule ^changelog([/]?)$ /changelog.php
+
+RewriteRule ^news([/]?)$ /news.php
+RewriteRule ^news/([a-zA-Z0-9_]+)([/]?)$ /news.php?entry=$1
+RewriteRule ^rss([/]?)$ /rss.php
+
+RewriteRule ^calendar([/]?)$ /calendar.php
+RewriteRule ^calendar/([a-z0-9/]+)$ /calendar.php?input=$1
+
+ErrorDocument 404 /404.php
+ErrorDocument 403 /403.php
+
+# GZIP
+<ifmodule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript image/png image/jpg image.jpeg application/x-font-woff
+</ifmodule>
+
+<FilesMatch "\.(php)$"> 
+#php_value short_open_tag "Off"
+#php_value auto_append_file "/included/count.php"
+</FilesMatch>
+<Files 403.shtml>
+order allow,deny
+allow from all
+</Files>
+
+deny from 27.150.235.76
+deny from 27.153.206.88
+deny from 27.153.236.202
+deny from 117.26.78.206
+deny from 140.237.5.207

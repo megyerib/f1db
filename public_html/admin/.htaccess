@@ -1,0 +1,125 @@
+Options +FollowSymLinks
+RewriteEngine On 
+RewriteOptions MaxRedirects=5
+  
+#RewriteCond %{SCRIPT_FILENAME} !-d  
+#RewriteCond %{SCRIPT_FILENAME} !-f  
+
+#([a-zA-Z0-9_]+)([/]?)$
+
+# Szerkeszthető shit
+
+RewriteRule ^driver([/]?)$                        /admin/driver.php
+RewriteRule ^newdriver([/]?)$                     /admin/driver.php?mode=add
+RewriteRule ^driver/([a-zA-Z0-9_]+)([/]?)$        /admin/driver.php?mode=edit&driver=$1
+RewriteRule ^driver/delete/([a-zA-Z0-9_]+)([/]?)$ /admin/driver.php?mode=delete&driver=$1
+
+RewriteRule ^team([/]?)$                        /admin/team.php
+RewriteRule ^newteam([/]?)$                     /admin/team.php?mode=add
+RewriteRule ^team/([a-zA-Z0-9_]+)([/]?)$        /admin/team.php?mode=edit&team=$1
+RewriteRule ^team/delete/([a-zA-Z0-9_]+)([/]?)$ /admin/team.php?mode=delete&team=$1
+
+RewriteRule ^circuit([/]?)$                        /admin/circuit.php
+RewriteRule ^newcircuit([/]?)$                     /admin/circuit.php?mode=add
+RewriteRule ^circuit/([a-zA-Z0-9_]+)([/]?)$        /admin/circuit.php?mode=edit&circuit=$1
+RewriteRule ^circuit/delete/([a-zA-Z0-9_]+)([/]?)$ /admin/circuit.php?mode=delete&circuit=$1
+
+RewriteRule ^tyre([/]?)$                        /admin/tyre.php
+RewriteRule ^newtyre([/]?)$                     /admin/tyre.php?mode=add
+RewriteRule ^tyre/([a-zA-Z0-9_]+)([/]?)$        /admin/tyre.php?mode=edit&tyre=$1
+RewriteRule ^tyre/delete/([a-zA-Z0-9_]+)([/]?)$ /admin/tyre.php?mode=delete&tyre=$1
+
+RewriteRule ^country([/]?)$                        /admin/country.php
+RewriteRule ^newcountry([/]?)$                     /admin/country.php?mode=add
+RewriteRule ^country/([a-zA-Z0-9_]+)([/]?)$        /admin/country.php?mode=edit&country=$1
+RewriteRule ^country/delete/([a-zA-Z0-9_]+)([/]?)$ /admin/country.php?mode=delete&country=$1
+
+# Körülményesebben szerkeszthető shit
+
+RewriteRule ^chassis([/]?)$                        /admin/chassis.php
+RewriteRule ^chassis/cons/([a-zA-Z0-9_]+)([/]?)$   /admin/chassis.php?mode=cons&cons=$1
+RewriteRule ^chassis/([0-9]+)([/]?)$               /admin/chassis.php?mode=edit&chassis=$1
+RewriteRule ^chassis/delete/([a-zA-Z0-9_]+)([/]?)$ /admin/chassis.php?mode=delete&chassis=$1
+RewriteRule ^chassis/new/([a-zA-Z0-9_]+)([/]?)$    /admin/chassis.php?mode=add&cons=$1
+
+RewriteRule ^engine([/]?)$                        /admin/engine.php
+RewriteRule ^engine/([0-9]+)([/]?)$               /admin/engine.php?mode=edit&engine=$1
+RewriteRule ^engine/cons/([a-zA-Z0-9_]+)([/]?)$   /admin/engine.php?mode=cons&cons=$1
+RewriteRule ^engine/delete/([a-zA-Z0-9_]+)([/]?)$ /admin/engine.php?mode=delete&engine=$1
+RewriteRule ^engine/new/([a-zA-Z0-9_]+)([/]?)$    /admin/engine.php?mode=add&cons=$1
+
+# Verseny shit
+
+RewriteRule ^race/([0-9]+)/results/practice/([0-9]+)([/]?)$ /admin/races/race_results.php?race=$1&mode=practice&practice=$2
+RewriteRule ^race/([0-9]+)/results/qualifying([/]?)$        /admin/races/race_results.php?race=$1&mode=qualifying
+RewriteRule ^race/([0-9]+)/results/pre-qualifying([/]?)$    /admin/races/race_results.php?race=$1&mode=pre-qualifying
+RewriteRule ^race/([0-9]+)/results/race([/]?)$              /admin/races/race_results.php?race=$1&mode=race
+
+# Fastadd
+
+RewriteRule ^race/([0-9]+)/results/race/fastadd([/]?)$              /admin/races/fastadd_race.php?race=$1
+RewriteRule ^race/([0-9]+)/results/qualifying/fastadd([/]?)$        /admin/races/fastadd_qual.php?race=$1
+RewriteRule ^race/([0-9]+)/results/practice/([0-9]+)/fastadd([/]?)$ /admin/races/fastadd_prac.php?race=$1&practice=$2
+
+RewriteRule ^race([/]?)$                 /admin/races.php
+RewriteRule ^race/([0-9]+)([/]?)$        /admin/races.php?race=$1
+RewriteRule ^race/new([/]?)$             /admin/races.php?new=$1
+RewriteRule ^race/delete/([0-9]+)([/]?)$ /admin/races.php?delete=$1
+
+RewriteRule ^race/([0-9]+)/results([/]?)$      /admin/races/race_results.php?race=$1&mode=main
+RewriteRule ^race/([0-9]+)/entrants([/]?)$     /admin/races/race_results.php?race=$1&mode=entrants
+RewriteRule ^race/entrants/([0-9]+)([/]?)$     /admin/races/race_results.php?mode=editentrant&entrant=$1
+RewriteRule ^race/entrants/add/([0-9]+)([/]?)$ /admin/races/race_results.php?mode=addentrant&race=$1
+
+# TESZTEK
+
+RewriteRule ^test/([0-9]+)/results/session/([0-9]+)([/]?)$ /admin/tests/test_results.php?test=$1&mode=session&session=$2
+
+RewriteRule ^test([/]?)$                 /admin/tests.php
+RewriteRule ^test/([0-9]+)([/]?)$        /admin/tests.php?test=$1
+RewriteRule ^test/new([/]?)$             /admin/tests.php?new=$1
+RewriteRule ^test/delete/([0-9]+)([/]?)$ /admin/tests.php?delete=$1
+
+RewriteRule ^test/([0-9]+)/results([/]?)$      /admin/tests/test_results.php?test=$1&mode=main
+RewriteRule ^test/([0-9]+)/entrants([/]?)$     /admin/tests/test_results.php?test=$1&mode=entrants
+RewriteRule ^test/entrants/([0-9]+)([/]?)$     /admin/tests/test_results.php?mode=editentrant&entrant=$1
+RewriteRule ^test/entrants/add/([0-9]+)([/]?)$ /admin/tests/test_results.php?mode=addentrant&test=$1
+
+RewriteRule ^test/([0-9]+)/results/([0-9]+)/fastadd([/]?)$              /admin/tests/fastadd_test.php?test=$1&session=$2
+
+# Egyéb shit
+
+RewriteRule ^message([/]?)$                 /admin/messages.php?mode=main
+RewriteRule ^message/page([0-9]+)([/]?)$    /admin/messages.php?mode=main&page=$1
+RewriteRule ^message/([0-9]+)([/]?)$        /admin/messages.php?message=$1
+RewriteRule ^message/([0-9]+)/delete([/]?)$ /admin/messages.php?delete=$1
+
+RewriteRule ^user([/]?)$           /admin/users.php
+RewriteRule ^user/add([/]?)$       /admin/users.php?mode=add
+RewriteRule ^user/delete([/]?)$    /admin/users.php?mode=delete&user=1
+RewriteRule ^user/([0-9_]+)([/]?)$ /admin/users.php?mode=edit&user=$1
+
+RewriteRule ^blog([/]?)$                        /admin/blog.php?main=1
+RewriteRule ^blog/([0-9]+)([/]?)$               /admin/blog.php?entry=$1
+RewriteRule ^blog/delete/([a-zA-Z0-9_]+)([/]?)$ /admin/blog.php?delete=$1
+RewriteRule ^blog/new([/]?)$                    /admin/blog.php?new=1
+
+RewriteRule ^active([/]?)$        /admin/active.php?mode=driver
+RewriteRule ^active/driver([/]?)$ /admin/active.php?mode=driver
+RewriteRule ^active/team([/]?)$   /admin/active.php?mode=team
+
+RewriteRule ^([a-zA-Z0-9_]+)([/]?)$ /admin/$1.php
+#Ha nem passzol egyik mintára sem
+#Nem kell állandóan ide írogatni
+
+ErrorDocument 404 /admin/404.php
+<Files 403.shtml>
+order allow,deny
+allow from all
+</Files>
+
+deny from 27.150.235.76
+deny from 27.153.206.88
+deny from 27.153.236.202
+deny from 117.26.78.206
+deny from 140.237.5.207

@@ -1,0 +1,39 @@
+/*Tables*/
+table{
+	border-collapse:collapse;
+}
+table.results th, table.results td{
+	border: 1px solid #AAAAAA;
+	padding:3px;
+}
+
+table.results th, table.results td.rnd{
+	background-color:#F2F2F2;
+}
+
+td.rnd {
+	text-align:center;
+	width:20px;
+}
+
+table.right, td.right {
+	vertical-align: top;
+	border: 0px;
+}
+
+table.right {
+	width: 100%;
+}
+
+table.nav {
+	
+}
+
+table.results, table.main {
+	border: 1px solid #AAAAAA;
+	background-color:#F9F9F9;
+}
+
+table.results td {
+	white-space: nowrap;
+}

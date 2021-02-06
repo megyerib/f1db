@@ -1,0 +1,58 @@
+.first {
+	background-color:#FFFFBF;
+}
+
+.second {
+	background-color:#DFDFDF;
+}
+
+.third {
+	background-color:#FFDF9F;
+}
+
+.scrd {
+	background-color:#DFFFDF;
+}
+
+.fshd, .NC {
+	background-color:#CFCFFF;
+}
+
+.ret {
+	background-color:#EFCFFF;
+}
+
+.DNQ, .DNPQ {
+	background-color:#FFCFCF;
+}
+
+.DNPQ {
+	font-size:66%;
+}
+
+.DNPQ a {
+	font-size:154%;
+	display:inline-block;
+	margin-bottom:5px;
+}
+
+.DSQ {
+	background-color:#000000;
+	color:#FFFFFF;
+}
+
+.DSQ a:link, .DSQ a:visited {
+	color:white;
+}
+
+.PO {
+	background-color:#F1F8FF;
+}
+
+.C, .DNS {
+	background-color:#FFFFFF;
+}
+
+.empty {
+	color:grey;
+}
