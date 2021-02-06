@@ -21,7 +21,7 @@ error_reporting(0);
 		if (isset($pagetitle)) {
 			if(isset($lang[$pagetitle])){ echo $pagetitle = $lang[$pagetitle]; }
 			else { echo $pagetitle.' - race-data.net'; }
-		} else{	echo 'Race-Data.net F1 database';	} // Alap oldalcím
+		} else{	echo 'GP-stats.com F1 database';	} // Alap oldalcím
 	?></title>
 	
 	<meta name="description" content="
