@@ -5,6 +5,7 @@ require_once('included/head.php');
 <div style="float:right; margin-left:10px;">
 <?php 	
 // NEXT EVENT
+echo '<div class="timer" style="margin-bottom:15px;">';
 $next = mysqli_query($f1db,
 	"SELECT country.name, det.tme, det.name AS event, det.type, det.num,
 		gp.yr, gp.gp
@@ -16,9 +17,9 @@ $next = mysqli_query($f1db,
 	WHERE tme > ((NOW() - INTERVAL 90 MINUTE))
 	ORDER BY det.tme, det.no ASC
 	LIMIT 1");
+if (mysqli_num_rows($next) > 0) { // Van esemény beállítva
 $next = mysqli_fetch_array($next);
 $date = date('M d, Y H:i:s', strtotime($next['tme']));
-echo '<div class="timer" style="margin-bottom:15px;">';
 if (!empty($next['event'])) {
 	$event_name = $next['event'];
 }
@@ -39,12 +40,37 @@ else {
 
 $gp_name = $next['name'].' GP';
 $flag = '<img src="/images/flag/big/'.$next['gp'].'.png" height="21" alt="'.$next['name'].'">';
-
+$precise = true;
+} // Van beállítva vége
+else { // Nincs idő beállítva
+	$cur_yr = date("Y");
+	$next2 = mysqli_query($f1db,
+		"SELECT MAX(rnd) AS max
+		FROM f1_race
+		WHERE yr >= $cur_yr
+		AND finish = 1"
+	);
+	$rnd = mysqli_fetch_array($next2);
+	$rnd = $rnd['max'];
+	$next = mysqli_query($f1db,
+		"SELECT country.gp, country.name, f1_gp.yr
+		FROM f1_gp
+		INNER JOIN country ON f1_gp.gp = country.gp
+		WHERE no > $rnd
+		ORDER BY no ASC
+		LIMIT 1"
+	);
+	$next = mysqli_fetch_array($next);
+	
+	$gp_name = $next['name'].' GP';
+	$flag = '<img src="/images/flag/big/'.$next['gp'].'.png" height="21" alt="'.$next['name'].'">';
+}
 // Megjelenítés
 
-echo 'Next event: '.$flag.' '.race_link($next['yr'], $next['gp'], $gp_name).' - '.$event_name;
+echo 'Next event: '.$flag.' '.race_link($next['yr'], $next['gp'], $gp_name);
+if (isset ($precise)) {
+echo ' - '.$event_name;
 echo '<br><span id="countdown">loading...</span>';
-echo '</div>';
 echo '<script>
     var target_date = new Date("'.$date.'").getTime(); // Date
 
@@ -82,7 +108,9 @@ echo '<script>
         }
     }, 1000);
 </script>';
-	
+}
+echo '</div>'; // Next event vége
+
 	require_once('today.php');
 	
 	// DRIVERS STANDING
@@ -160,7 +188,7 @@ echo '<script>
 	echo '<p><a href="/f1/'.actual.'#constructors_standing">All</a></p>';
 ?>
 </div>
-
+<h1 class="color green">H1 title, yaaay!</h1>
 <h2 style="margin-top:0px;">Hi there!</h2>
 My site is in beta phase, so I'm constantly adding many-many features to it. If you've found some bugs, mistakes in the datas os just have a suggestion, please let me know of it.<br>
 Subscribe for updates on Facebook, Twitter or Rss. Thanks!

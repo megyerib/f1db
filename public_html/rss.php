@@ -11,7 +11,7 @@ echo '<?xml-stylesheet type="text/css" href="/css/rss.css"?>';
 <language>en-us</language>
 <?php
 require_once('included/database.php');
-$news = mysqli_query($f1db,
+$news = mysqli_query($sdb,
 	"SELECT *
 	FROM blog
 	WHERE public = 1

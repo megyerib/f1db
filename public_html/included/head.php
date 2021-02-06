@@ -1,20 +1,15 @@
 <?php
-ob_start();
-error_reporting(0);
+//error_reporting(0);
 //require_once('included/maintenance.php'); // Betölt egy oldalt, majd megszakítja a betöltést
+ob_start();
+header('Content-Type: text/html; charset=UTF-8');
 ?>
 <!DOCTYPE html><html>
 <head>
-	<meta charset="windows-1252">
+	<meta charset="UTF-8">
 <?php	
-	$require = array (
-		'vars',
-		'database',
-		'functions/functions',
-		'functions/link',
-		'functions/tables',
-		'language/language'
-	);
+	$require = 'vars database functions/functions functions/link functions/tables language/language';
+	$require = explode(' ', $require);
 	foreach ($require as $file) { require_once($file.'.php'); }
 ?>
 	<title><?php // TITLE
@@ -24,42 +19,25 @@ error_reporting(0);
 		} else{	echo 'Race-Data.net F1 database';	} // Alap oldalcím
 	?></title>
 	
-	<meta name="description" content="
-		Race-data.net - Detailed Formula One statistics from 1950 till today. Race results, driver, team, constructor, circuit infos and much more.
-	">
-	
-	<meta name="keywords" content="
-		Formula One, Formula 1, F1, Forma 1, Formel 1,
-		statistics, statistic, stat, stats,
-		data,
-		archive,
-		vettel, raikkonen, alonso, hamilton,
-		mclaren, ferrari, lotus, red bull, mercedes, renault
-		schumacher, senna, prost, lauda, hunt, piquet, fangio, ascari,
-		brabham, benetton, tyrrell,
-		driver, chassis, engine, sponsor, season, race, grand prix,
-		tyre, pirelli, bridgestone, michelin,
-	">
+	<!-- Auto -->
+	<meta name="description" content="">
+	<meta name="keywords" content="">
 	
 <?php
-	$css = array(
-		'main',
-		'message',
-		'menu',
-		'table',
-		'div',
-		'tyre',
-		'score'
-	);
-	
+	// CSS-ek betöltése
+	$css = 'main message menu table div tyre score search';
+	$css = explode(' ', $css);
 	foreach ($css as $sheet) {
 		echo '<link rel="stylesheet" type="text/css" href="/css/'.$sheet.'.css">';
 	}
 	
-	echo '<link rel="shortcut icon" href="/images/favicon.png">';
+	// CKEditor betöltése (ha kell)
 	if (isset($cke)) {
-	echo '<script src="/scripts/ckeditor/ckeditor.js"></script>';
+		echo '<script src="/scripts/ckeditor/ckeditor.js"></script>';
 	}
+	// Favicon
+	echo '<link rel="shortcut icon" href="/images/favicon.png">';
+	// ???
 	echo '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
 ?>
 </head>
@@ -67,11 +45,24 @@ error_reporting(0);
 <?php
 	// Analytics
 	include_once("analyticstracking.php");
-	// Nyelvválasztó
+	// Nyelvválasztó -> Át fogom rakni máshova
 	require_once('language/select.php');
 ?>
 		
 <!-- HEAD -->
+<div class="main">
+<div class="header">
+
+<!-- Right part -->
+<div style="float:right; height:auto;"><form method="get" action="/search" id="search">
+	<input name="term" type="search" size="40" placeholder="Search" style="position:relative; top:0px;"><!-- Miért nem tetszik neki, ha lejjebb tolom? -->
+</form></div>
+
+<!-- Logo -->
+<img src="/images/logo.png" style="width:200px;">
+
+</div>
+	<!-- RÉGI
 	<div class="head"><div>
 	<table width="100%"><tr><td>	
 		<a href="/"><img src="/images/logo.png" height="70" alt="logo"></a>
@@ -87,15 +78,16 @@ error_reporting(0);
 	
 	
 	
-	</div></div>
+	</div></div>-->
 	
 <!-- MENU -->	
-<?php
-	require_once('menu.php');
-?>	
-		<!-- MAIN -->
-		<div class="shadow_bot"></div>
-		<div class="main_content">
+<div class="menu">
+<?php require_once('menu.php'); ?>
+</div>
+
+
+<!-- MAIN -->
+<div class="main_content">
 	
 <?php
 /*if (isset($maintitle) || isset($pagetitle)) {
