@@ -13,7 +13,7 @@
 <tr><td>December</td><td><a href="/calendar/dec/1">1</a> &middot; <a href="/calendar/dec/2">2</a> &middot; <a href="/calendar/dec/3">3</a> &middot; <a href="/calendar/dec/4">4</a> &middot; <a href="/calendar/dec/5">5</a> &middot; <a href="/calendar/dec/6">6</a> &middot; <a href="/calendar/dec/7">7</a> &middot; <a href="/calendar/dec/8">8</a> &middot; <a href="/calendar/dec/9">9</a> &middot; <a href="/calendar/dec/10">10</a> &middot; <a href="/calendar/dec/11">11</a> &middot; <a href="/calendar/dec/12">12</a> &middot; <a href="/calendar/dec/13">13</a> &middot; <a href="/calendar/dec/14">14</a> &middot; <a href="/calendar/dec/15">15</a> &middot; <a href="/calendar/dec/16">16</a> &middot; <a href="/calendar/dec/17">17</a> &middot; <a href="/calendar/dec/18">18</a> &middot; <a href="/calendar/dec/19">19</a> &middot; <a href="/calendar/dec/20">20</a> &middot; <a href="/calendar/dec/21">21</a> &middot; <a href="/calendar/dec/22">22</a> &middot; <a href="/calendar/dec/23">23</a> &middot; <a href="/calendar/dec/24">24</a> &middot; <a href="/calendar/dec/25">25</a> &middot; <a href="/calendar/dec/26">26</a> &middot; <a href="/calendar/dec/27">27</a> &middot; <a href="/calendar/dec/28">28</a> &middot; <a href="/calendar/dec/29">29</a> &middot; <a href="/calendar/dec/30">30</a> &middot; <a href="/calendar/dec/31">31</a></td></tr>
 </table>
 <?php
-// script az egész újragenerálásához, de egyenként fölösleges ugyanaz megcsinálni
+// script az egész újragenerálásához, de egyenként fölösleges megcsinálni
 /*
 echo '</table>';
 

@@ -21,7 +21,7 @@ error_reporting(0);
 		if (isset($pagetitle)) {
 			if(isset($lang[$pagetitle])){ echo $pagetitle = $lang[$pagetitle]; }
 			else { echo $pagetitle.' - race-data.net'; }
-		} else{	echo 'GP-stats.com F1 database';	} // Alap oldalcím
+		} else{	echo 'Race-Data.net F1 database';	} // Alap oldalcím
 	?></title>
 	
 	<meta name="description" content="
@@ -63,7 +63,11 @@ error_reporting(0);
 	echo '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
 ?>
 </head>
-<body>			
+<?php
+// BODY
+?>
+<body>
+<div id="borders" style="width:920px;margin:auto;">		
 <?php
 	// Analytics
 	include_once("analyticstracking.php");
@@ -80,8 +84,8 @@ error_reporting(0);
 		<input type="search" id="namanyay-search-box" name="term" size="40" type="text" placeholder="Search"/>
 		<input id="namanyay-search-btn" value=" " type="submit"/></form><br>
 		
-		<a class="facebook_icon social_icon" href="https://www.facebook.com/racedata"></a>
-		<a class="twitter_icon social_icon" href="https://twitter.com/racedatanet"></a>
+		<!--<a class="facebook_icon social_icon" href="https://www.facebook.com/racedata"></a>
+		<a class="twitter_icon social_icon" href="https://twitter.com/racedatanet"></a>-->
 		<a class="rss_icon social_icon" href="http://race-data.net/rss"></a>
 	</td></tr></table>
 	

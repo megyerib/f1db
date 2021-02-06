@@ -2,6 +2,11 @@
 table{
 	border-collapse:collapse;
 }
+
+table.results{
+	font-size:11px;
+}
+
 table.results th, table.results td{
 	border: 1px solid #AAAAAA;
 	padding:3px;
@@ -23,10 +28,6 @@ table.right, td.right {
 
 table.right {
 	width: 100%;
-}
-
-table.nav {
-	
 }
 
 table.results, table.main {
