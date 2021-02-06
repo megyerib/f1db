@@ -30,7 +30,7 @@ class cons {
     }
 
     function a() {
-        return flag($this->nat, $this->nation).a('driver', $this->name, $this->id);
+        return a('cons', $this->name, $this->id);
     }
 }
 ?>

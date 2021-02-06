@@ -7,6 +7,8 @@ class event {
     public $gp;
     public $gpID;
 
+    public $entries = array();
+
     function fillFromRow($row) {
         $this->no   = $row['eventNo'];
         $this->year = $row['eventYear'];

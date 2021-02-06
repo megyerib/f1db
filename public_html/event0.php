@@ -7,19 +7,18 @@ include 'resources/lib/tyre.php';
 include 'resources/lib/entry.php';
 include 'resources/lib/session.php';
 
-$event = new event;
-if (!$event->fillFromData($_GET['series'], $_GET['year'], $_GET['gp'])) {
+$e = new event;
+if (!$e->fillFromData($_GET['series'], $_GET['year'], $_GET['gp'])) {
     header("Location: ".url('season', $_GET['series'], $_GET['year']));
     die;
 }
 
-echo "<h1>$event->year $event->gp $event->seriesName Grand Prix</h1>";
+echo "<h1>$e->year $e->gp $e->seriesName Grand Prix</h1>";
 
-// Session-ök lekérdezése
 $results = $rdb->query(
     "SELECT *
      FROM session
-     WHERE sessionEvent = $event->no
+     WHERE sessionEvent = $e->no
      ORDER BY sessionType ASC" // Csak ideiglenes, amíg be nem rakom az időt
 );
 
@@ -36,15 +35,19 @@ while ($row = $results->fetch_assoc()) {
     $sessions[$s->no] = $s;
 }
 
-// Entry-k lekérdezése
+// Minden eredmény lekérdezése
+
 $results = $rdb->query(
-   "SELECT
-        entryNo, entryCarNo,
+   "SELECT resultStatus, resultStart, resultFinish, resultLaps,
+           resultTime, resultNote, resultScore, resultSession,
+        entryCarNo,
         driverName, driverID, countryID, countryName,
         c.consID AS chassisID, c.consName AS chassisName,
         e.consID AS engineID,  e.consName AS engineName,
         tyreID
-    FROM entry
+    FROM result
+    JOIN session   ON resultSession = sessionNo
+    JOIN entry     ON resultEntry   = entryNo
     JOIN driver    ON entryDriver   = driverNo
     JOIN country   ON driverNation  = countryNo
     JOIN chassis   ON entryChassis  = chassisNo
@@ -52,33 +55,16 @@ $results = $rdb->query(
     JOIN engine    ON entryEngine   = engineNo
     JOIN cons AS e ON engineCons    = e.consNo
     JOIN tyre      ON entryTyre     = tyreNo
-    WHERE entryEvent = $event->no"
+    WHERE sessionEvent = $e->no
+    ORDER BY resultFinish, resultNo ASC" // resultNo a 3 részes időmérő miatt
 );
 
 while ($row = $results->fetch_assoc()) {
-    $e = new entry;
-    $e->fillFromRow($row);
-    $event->entries[$row['entryNo']] = $e;
-}
-$results->close();
-//varDump($e->entries);
-
-// Eredmények lekérdezése
-$results = $rdb->query(
-    "SELECT resultSession, resultStatus, resultEntry, resultStart, resultFinish,
-        resultStatus, resultLaps, resultTime, resultNote, resultScore
-    FROM result
-    JOIN entry ON resultEntry = entryNo
-    WHERE entryEvent = $event->no
-    ORDER BY resultFinish, resultNo ASC"
-);
-while ($row = $results->fetch_assoc()) {
-    $sessions[$row['resultSession']]->addToResults($event->entries[$row['resultEntry']], $row);
+    $sessions[$row['resultSession']]->addToResults($row);
 }
 
-// Kiírás
+//varDump($sessions);
 foreach ($sessions as $session) {
-    echo "<h2>$session->displayName</h2>";
     echo $session->table();
 }
 

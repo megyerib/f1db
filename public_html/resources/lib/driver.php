@@ -23,11 +23,13 @@ class driver {
              JOIN country
              ON driver.driverNation = country.countryNo
              WHERE driverID = '$getID'");
+        if (!$result) return false;
         $row    = $result->fetch_assoc();
         $this->fillFromRow($row);
+        return true;
     }
 
-    function a() {
+    function link() {
         return flag($this->nat, $this->nation).a('driver', $this->name, $this->id);
     }
 

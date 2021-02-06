@@ -16,5 +16,9 @@ class tyre {
             $this->nation = $row['countryName'];
         }
     }
+
+    function link() {
+        return a('tyre', $this->id, $this->id);
+    }
 }
 ?>

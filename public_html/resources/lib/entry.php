@@ -28,5 +28,12 @@ class entry {
         $this->tyre->id = $row['tyreID'];
         $this->carNo = $row['entryCarNo'];
     }
+
+    function consLink() {
+        if ($this->chassisCons->id != $this->engineCons->id)
+            return $this->chassisCons->a()." - ".$this->engineCons->a();
+        else
+            return $this->chassisCons->a();
+    }
 }
 ?>
