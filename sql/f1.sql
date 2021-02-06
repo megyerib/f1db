@@ -2,8 +2,8 @@
 -- version 4.0.10.7
 -- http://www.phpmyadmin.net
 --
--- Hoszt: localhost
--- Létrehozás ideje: 2015. Sze 27. 13:03
+-- Hoszt: localhost:3306
+-- Létrehozás ideje: 2015. Nov 04. 15:47
 -- Szerver verzió: 5.5.34-cll-lve
 -- PHP verzió: 5.4.31
 

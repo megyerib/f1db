@@ -1,4 +1,5 @@
-<ul>
+<div class="menu"><div>
+	<ul>
 	<li><a href="/"><img src="/images/icon/home.png" alt="home" height="12" style="position:relative; top:1px;"></a></li>
 	<li><a href="/f1"><?php echo $lang['races']; ?></a></li>
 	<li><a href="/driver"><?php echo $lang['drivers']; ?></a></li>
@@ -14,3 +15,4 @@
 	<li><a href="/circuit"><?php echo $lang['circuits']; ?></a></li>
 	<li><a href="/f1/list"><?php echo $lang['ranklists']; ?></a></li>	
 </ul>
+</div></div>

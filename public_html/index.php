@@ -188,7 +188,7 @@ echo '</div>'; // Next event vége
 	echo '<p><a href="/f1/'.actual.'#constructors_standing">All</a></p>';
 ?>
 </div>
-<h1 class="color green">H1 title, yaaay!</h1>
+
 <h2 style="margin-top:0px;">Hi there!</h2>
 My site is in beta phase, so I'm constantly adding many-many features to it. If you've found some bugs, mistakes in the datas os just have a suggestion, please let me know of it.<br>
 Subscribe for updates on Facebook, Twitter or Rss. Thanks!
