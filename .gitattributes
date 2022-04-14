@@ -1,0 +1,7 @@
+# Hide third party code in linguist stats
+# https://github.com/github/linguist/blob/master/docs/overrides.md#vendored-code
+public_html/script/ckeditor_adv/** linguist-vendored
+public_html/script/ckeditor_std/** linguist-vendored
+jquery.js linguist-vendored
+*.sql linguist-vendored
+
